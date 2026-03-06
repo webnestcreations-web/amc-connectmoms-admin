@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"></head>
+<body>
+<script>
+// WNC Config Bridge — reads localStorage config saved by the portal
+// and sends it to the parent window (Squarespace site) via postMessage
+(function(){
+  try {
+    var raw = localStorage.getItem('wnc-config');
+    var cfg = raw ? JSON.parse(raw) : null;
+    if (cfg && window.parent !== window) {
+      window.parent.postMessage({ type: 'wnc-config', config: cfg }, '*');
+    }
+  } catch(e) {
+    console.error('WNC bridge error:', e);
+  }
+})();
+</script>
+</body>
+</html>
